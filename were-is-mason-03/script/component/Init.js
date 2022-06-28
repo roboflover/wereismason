@@ -1,7 +1,5 @@
 window.addEventListener('load', init, false);
 //init();
-
-
 let Colors = {
   white: 0xffffff, 
 }
