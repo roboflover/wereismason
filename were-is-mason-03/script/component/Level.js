@@ -35,7 +35,7 @@ class Level {
 
   };
   
-  const shaderMaterial = new THREE.ShaderMaterial( {
+  this.shaderMaterial = new THREE.ShaderMaterial( {
 
   uniforms,
 
@@ -74,7 +74,7 @@ class Level {
 
   geometry2.setAttribute( 'position', new THREE.BufferAttribute(position, 3));
 
-  this.pointCloud = new THREE.Points( geometry2, shaderMaterial );
+  this.pointCloud = new THREE.Points( geometry2, this.shaderMaterial );
   //this.lineCloud = new THREE.Line( geometry2, material );
 
   this.group.add( this.pointCloud );
