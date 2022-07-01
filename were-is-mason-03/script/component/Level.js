@@ -5,17 +5,17 @@ class Level {
   this.mesh = new THREE.Object3D();  
   this.particlesData = [];
   this.group = new THREE.Group();
-  this.particleCount = 20000;
+  this.particleCount = 200;
   
   this.particlePositions;
   this.pointCloud;
   this.rHalf;
   let colors;
-  let geometry2;
-  let count = 100;
+  let geoPoint, geoLine, linesMesh;
+  let count = 10;
   let position = new Float32Array(count * count * 3);
-		
-  const maxParticleCount = 1000;
+	//position.length(count * count * 3);
+	
   const r = 800;
 	this.rHalf = r / 2;
 	
@@ -35,7 +35,9 @@ class Level {
 
   };
   
-  this.shaderMaterial = new THREE.ShaderMaterial( {
+  // create points
+  
+  this.shaderMatPoint = new THREE.ShaderMaterial( {
 
   uniforms,
 
@@ -46,17 +48,8 @@ class Level {
 	transparent: true,
 
 } );
-
   
-  const pMaterial = new THREE.PointsMaterial( {				
-    color: 0xFFFFFF,					
-    size: 3,					
-    blending: THREE.AdditiveBlending,					
-    //transparent: true,					
-    sizeAttenuation: false 
-  });
-  
-  geometry2 = new THREE.BufferGeometry();
+  geoPoint = new THREE.BufferGeometry();
 
   for( let i = 0; i < count; i ++ ) {
     for( let j = 0; j < count; j ++ ) {
@@ -69,15 +62,51 @@ class Level {
         (j/count - 0.5)*20,
         0
         ], 3*(count * i + j))
+        
+        //console.log(3*(count * i + j));
     }
   }
-
-  geometry2.setAttribute( 'position', new THREE.BufferAttribute(position, 3));
-
-  this.pointCloud = new THREE.Points( geometry2, this.shaderMaterial );
-  //this.lineCloud = new THREE.Line( geometry2, material );
-
+  
+  geoPoint.setAttribute( 'position', new THREE.BufferAttribute(position, 3));
+  this.pointCloud = new THREE.Points( geoPoint, this.shaderMatPoint );
+  
+  // create lines
+  this.shaderMatLine = new THREE.ShaderMaterial({
+    uniforms,
+    vertexShader: document.getElementById('vertexShaderLine').textContent,
+    fragmentShader: document.getElementById('fragmentShaderLine').textContent,
+    transparent: true,
+  });
+  
+  geoLine = new THREE.BufferGeometry(); 
+  
+  let position2 = new Float32Array();
+  let position3 = new Float32Array();
+  position2 = position.slice(0, 30);
+  //const posLine = position.slice(0, count*3);
+  position.forEach(function callback(currentValue, index, array) {
+    if(!(index % (count*3))){
+      const prev = index;
+      const next = index + (count * 3);
+      const posLine = position.slice(prev, next);
+      position2 = position.slice(prev, next);
+      //position3.length +1;
+      position3.set(position3, array);
+      // (myarray.length+1)).set([...myarray, appendix])
+      // пытаюсь сложить несколько массивов в один
+      // position3.pop(position2);
+      // position2.set(posLine, count * 3 *index);
+    }
+        //your iterator }[, thisArg]);
+      })
+  console.log(position3);
+  geoLine.setAttribute( 'position', new THREE.BufferAttribute( position3, 3 )); 				
+  
+  const material = new THREE.LineBasicMaterial( { vertexColors: true, blending: THREE.AdditiveBlending, transparent: true } ); 
+  //linesMesh = new THREE.LineSegments( geoLine, material );
+  this.linesCloud = new THREE.Line( geoLine, this.shaderMatLine );
+  this.group.add( this.linesCloud );
   this.group.add( this.pointCloud );
-   }
+  }
 }
     

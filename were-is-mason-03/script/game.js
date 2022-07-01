@@ -19,7 +19,7 @@ const loop = () => {
   
   mason.group.rotation.x += 0.03;
   bg.pointCloud.geometry.attributes.position.needsUpdate = true;
-  bg.shaderMaterial.uniforms.time.value += 0.09;
+  bg.shaderMatPoint.uniforms.time.value += 0.01;
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
   
