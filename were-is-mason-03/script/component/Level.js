@@ -61,9 +61,8 @@ class Level {
         (i/count - 0.5)*20,
         (j/count - 0.5)*20,
         0
-        ], 3*(count * i + j))
+        ], 3*(count * i + j));
         
-        //console.log(3*(count * i + j));
     }
   }
   
@@ -90,8 +89,9 @@ class Level {
       const next = index + (count * 3);
       const posLine = position.slice(prev, next);
       position2 = position.slice(prev, next);
+      //console.log(currentValue);
       //position3.length +1;
-      position3.set(position3, array);
+      //position3.set([currentValue]);
       // (myarray.length+1)).set([...myarray, appendix])
       // пытаюсь сложить несколько массивов в один
       // position3.pop(position2);
@@ -99,7 +99,7 @@ class Level {
     }
         //your iterator }[, thisArg]);
       })
-  console.log(position3);
+  console.log(position);
   geoLine.setAttribute( 'position', new THREE.BufferAttribute( position3, 3 )); 				
   
   const material = new THREE.LineBasicMaterial( { vertexColors: true, blending: THREE.AdditiveBlending, transparent: true } ); 
