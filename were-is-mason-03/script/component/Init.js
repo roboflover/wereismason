@@ -42,7 +42,7 @@ const createScene = () => {
   );
   
   camera.position.x = 0;
-  camera.position.z = 800;
+  camera.position.z = 3500;
   camera.position.y = 0;
   
   
