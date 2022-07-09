@@ -3,6 +3,8 @@ class Mixer {
   this.group = new THREE.Group();
   const mason = new Mason();
   this.group.add(mason.mesh);
+  const enemy = new Enemy();
+  this.group.add(enemy.mesh);
   }
 }
 
