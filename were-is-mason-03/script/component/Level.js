@@ -1,100 +1,81 @@
 class Level {
   
-  constructor(){
-    
-  this.mesh = new THREE.Object3D();  
-  this.particlesData = [];
-  this.group = new THREE.Group();
-  this.particleCount = 200;
-  
-  this.particlePositions;
-  this.pointCloud;
-  this.rHalf;
-  let colors;
-  let geoPoint, geoLine, linesMesh;
-  let count = 10;
-  let position = [];
-  let parentTransform;
-  //= new Float32Array(count * count * 3);
-	//position.length(count * count * 3);
-	
-  const r = 800;
-	this.rHalf = r / 2;
-	
-	const effectController = {				
-	  showDots: true,				
-	  showLines: true,				
-	  minDistance: 150,				
-	  limitConnections: false,				
-	  maxConnections: 2000,				
-	  particleCount: 500			
-	};
-	
-  const uniforms = {
-
-    time: { type: "f", value: 0 },
-    resolution:  { type: "v4", value: new THREE.Vector4() },
-
-  };
-  
-  // create points
-
-  this.shaderMatPoint = new THREE.ShaderMaterial( {
-  uniforms,
-	vertexShader: document.getElementById( 'vertexShader' ).textContent,
-	fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
-	transparent: true,
-
-} );
-  
-  geoPoint = new THREE.BufferGeometry();
-
-  for( let i = 0; i < count; i ++ ) {
-    for( let j = 0; j < count; j ++ ) {
-      let u = Math.random()*2*Math.PI;
-      let v = Math.random()*2*Math.PI;
-      position.push(
-        (i/count - 0.5)*20,
-        (j/count - 0.5)*20,
-        0
-        );
+    constructor(){
+      
+   this.group = new THREE.Group();
+   let count = 15.0;
+   this.shaderMatPoint;
+   this.shaderMatMesh;
+   let scale = 2.0;
+    const uniforms = {
+      time: { type: "f", value: 0 },
+      resolution: { value: new THREE.Vector3(1, 1, 1) },
+      count: { type: "f", value: count },
+    };
+   
+    this.shaderMatPoint = new THREE.ShaderMaterial({
+      uniforms,
+      vertexShader: vertexShaderP,
+      fragmentShader: fragmentShaderP,
+      transparent: true,
+      side: THREE.DoubleSide,
+    });
+    this.shaderMatMesh = new THREE.ShaderMaterial({
+      uniforms,
+      vertexShader: vertexShaderPM,
+      fragmentShader: fragmentShaderPM,
+      transparent: true,
+      side: THREE.DoubleSide,
+      depthWrite: true,
+      //wireframe: true,
+    });
+   var geometry = new THREE.PlaneBufferGeometry( 20, 20, count-1, count-1 ); 
+   /*
+   geoPoint = new THREE.BufferGeometry();
+    for (let i = 0; i < count; i++) {
+      for (let j = 0; j < count; j++) {
+        positionPV.set([
+              (i / count - 0.5) * 20,
+              (j / count - 0.5) * 20,
+              0
+              ], 3 * (count * i + j));
+      }
     }
-  }
-
-
-  //console.log(position)
-  geoPoint.setAttribute( 'position', new THREE.Float32BufferAttribute( position, 3 ) );
-  //geoPoint.setAttribute( 'position', new THREE.BufferAttribute(position, 3));
-  this.pointCloud = new THREE.Points( geoPoint, this.shaderMatPoint );
-  
-  // create lines
-  this.shaderMatLine = new THREE.ShaderMaterial({
-    uniforms,
-    vertexShader: document.getElementById('vertexShaderLine').textContent,
-    fragmentShader: document.getElementById('fragmentShaderLine').textContent,
-    transparent: true,
-  });
-  
-  let position2 = [];
-  let geoLine1 = new THREE.BufferGeometry(); 
-  for(let i = 0; i < 30; i++) {
-    position2.unshift(position[i]);
-  }
-
-  geoLine1.setAttribute( 'position', new THREE.Float32BufferAttribute( position2, 3 ));
-  const material = new THREE.LineBasicMaterial( { vertexColors: true, blending: THREE.AdditiveBlending, transparent: true } ); 
-  this.linesCloud = new THREE.Line( geoLine1, this.shaderMatLine );
-  this.group.add( this.linesCloud );
-
-  this.group.add( this.pointCloud );
-  
-  
-  // create lines
- 
-
-  }
- 
-
- // 
-}
+    geometry.setAttribute('position', new THREE.BufferAttribute(positionPV, 3));
+    */
+     let pointCloud = new THREE.Points(geometry, this.shaderMatPoint);
+    //let mmm = new THREE.Mesh(geoPoint, shaderMatMesh);
+     //group.add(mmm)
+     pointCloud.position.z = 0.5;
+     this.group.add(pointCloud);
+   //  console.log(this.group)
+     //scene.add(group);
     
+    
+    var material = new THREE.MeshBasicMaterial( {color: 0xff0000, side: THREE.DoubleSide} ); 
+    var bg = new THREE.Mesh( geometry, this.shaderMatMesh ); 
+    bg.position.x =-.0;
+    bg.position.y =-.0;
+    bg.position.z = -0.0;
+    
+    
+    this.group.add( bg );
+    bg.scale.set(scale, scale, scale,);
+    pointCloud.scale.set(scale, scale, scale,);
+    
+    
+    
+    
+    
+    
+    
+  
+    
+    
+  
+     // this.group.add()
+    }
+   
+   // 
+  }
+      

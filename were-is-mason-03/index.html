@@ -1,97 +1,27 @@
-<link rel="stylesheet" href="./style/style.css">
-<div id="world"></div>
-<script id='vertexShader' type='x-shader/x-vertex'>
+<link rel="stylesheet" href="./style/style.css" />
+<body bgcolor="#000000">
+  <div id="world"></div>
 
-    varying vec2 vUv;
-    varying vec3 vPosition;
-    varying vec4 vColor;
-    uniform float time;
-   
-    void main() {
-       
-    vec3 newPos = position;
-    newPos.z += sin(time + position.y * 0.5);
-    
-    vec4 mvPosition = modelViewMatrix * vec4(newPos, 1.0);
-    gl_PointSize = 10. * (1. / - mvPosition.z) + 8.;
-     
-    gl_Position = projectionMatrix * mvPosition;
-
-    }
-    
-</script>
-
-<script id='vertexShaderLine' type='x-shader/x-vertex'>
-
-    varying vec2 vUv;
-    varying vec3 vPosition;
-    varying vec4 vColor;
-    uniform float time;
-   
-    void main() {
-       
-    vec3 newPos = position;
-    newPos.z += sin(time + position.y * 0.5);
-    
-    vec4 mvPosition = modelViewMatrix * vec4(newPos, 1.0);
-    gl_PointSize = 10. * (1. / - mvPosition.z) + 8.;
-     
-    gl_Position = projectionMatrix * mvPosition;
-
-    }
-    
-</script>
-
-<script id='fragmentShader' type='x-shader/x-fragment'>
-
-    varying vec3 vPosition; 
-    varying vec2 vUv;
-    varying vec4 vColor;
-    
-    uniform vec2 resolution;
-    uniform float time;
-    
-    void main(){
-      float radius = .005;
-      float dist = length(gl_PointCoord - vec2(0.5));
-      float alpha = 1. - smoothstep(0.45, 0.5, dist);
-      gl_FragColor = vec4(1., 1., 1., alpha);
-}
-
-</script>
-
-<script id='fragmentShaderLine' type='x-shader/x-fragment'>
-
-    varying vec3 vPosition; 
-    varying vec2 vUv;
-    varying vec4 vColor;
-    
-    uniform vec2 resolution;
-    uniform float time;
-    
-    void main(){
-      float radius = .005;
-      float dist = length(gl_PointCoord - vec2(0.5));
-      float alpha = 1. - smoothstep(0.45, 0.5, dist);
-      gl_FragColor = vec4(1., 1., 1., 1.0);
-}
-
-</script>
-
-<script src="./script/lib/three.min.js"></script>
-<script src="./script/lib/OrbitControls.js"></script>
-<script src="./script/lib/BufferGeometryUtils.js"></script>
-<!--
+  <!-- LYBARY -->
+  <script src="./script/lib/three.min.js"></script>
+  <script src="./script/lib/OrbitControls.js"></script>
+  <script src="./script/lib/BufferGeometryUtils.js"></script>
+  <!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r123/three.min.js"></script>
 <script src="https://rawgithub.com/mrdoob/three.js/r104/examples/js/utils/BufferGeometryUtils.js"></script>
 -->
-<!-- MAIN -->
-<script src="./script/component/Init.js" ></script>
-<script src="./script/component/Level.js"></script>
-<script src="./script/component/Switch.js"></script>
-<script src="./script/component/Mason.js" ></script>
-<script src="./script/component/Mixer.js" ></script>
-<script src="./script/component/Tumbler.js" ></script>
-<script src="./script/game.js" ></script>
-
+  <!-- SHADER -->
+  <script src="./script/shader/vertexShaderPM.js"></script>
+  <script src="./script/shader/fragmentShaderP.js"></script>
+  <script src="./script/shader/fragmentShaderPM.js"></script>
+  <script src="./script/shader/vertexShaderP.js"></script>
+  <!-- MAIN -->
+  <script src="./script/component/Init.js"></script>
+  <script src="./script/component/Level.js"></script>
+  <script src="./script/component/Switch.js"></script>
+  <script src="./script/component/Mason.js"></script>
+  <script src="./script/component/Enemy.js"></script>
+  <script src="./script/component/Mixer.js"></script>
+  <script src="./script/component/Tumbler.js"></script>
+  <script src="./script/game.js"></script>
 </body>
