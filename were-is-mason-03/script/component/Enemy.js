@@ -3,14 +3,8 @@ class Enemy {
     let arr = [];
     this.mesh = new THREE.Object3D();
     let geom = new THREE.BoxGeometry(12, 12, 12);
-    let mat = new THREE.MeshPhongMaterial({
-      color: Colors.red,
-    });
-    let m = new THREE.Mesh(geom, mat);
-    m.position.y = 0;
-    m.castShadow = true;
-    m.receiveShadow = true;
-    this.mesh.add(m);
+
+
     
     // const material = new THREE.MeshBasicMaterial( { color: 0x000000  } );
     const uniforms = {
@@ -26,16 +20,48 @@ class Enemy {
       side: THREE.DoubleSide,
     });
 
-    var loader = new THREE.ObjectLoader();
-    loader.load( './models/model.json', function ( object ) {
-                //console.log( object );
-                let s = 100.0;
-                object.scale.set(s, s, s);
-                object.material = material;
-                scene.add( object );
-    } );
+
+
+    
+	
+
+    const loader = new THREE.OBJLoader();
+    // https://threejs.org/examples/models/obj/male02/male02.obj
+    // 'models/modul-01.obj',
+    // load a resource
+    loader.load(
+      // resource URL
+      'https://threejs.org/examples/models/obj/male02/male02.obj',
+      // called when resource is loaded
+      function ( object ) {
+                  let s = 10.0;
+                 object.scale.set(s, s, s);
+        scene.add( object );
+    
+      },
+      // called when loading is in progresses
+      function ( xhr ) {
+    
+        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+    
+      },
+      // called when loading has errors
+      function ( error ) {
+    
+        console.log( 'An error happened' );
+    
+      }
+    );
+    // var loader = new THREE.ObjectLoader();
+    // loader.load( 'models/model.json', function ( object ) {
+    //             //console.log( object );
+    //             let s = 100.0;
+    //             object.scale.set(s, s, s);
+    //             object.material = material;
+    //             scene.add( object );
+    // } );
     //console.log(loader);
-    loader.material = material;
+    //loader.material = material;
     //let objectRabbitAngry = await loaderRabbitAngry.loadAsync( './models/example.json' );
     
     // let moddd = new THREE.BufferGeometryLoader()

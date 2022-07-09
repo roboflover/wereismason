@@ -27,7 +27,7 @@ const createScene = () => {
   
   // Add a fog effect to the scene; same color as the
   // background color used in the style sheet
-  scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
+  //scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
 
   // Create the camera
   aspectRatio = WIDTH / HEIGHT;
