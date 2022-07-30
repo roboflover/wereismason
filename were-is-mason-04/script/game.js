@@ -12,7 +12,6 @@ const createMason = () => {
     uniforms: {
 
     },
-
     vertexShader: vertexShaderMason,
     fragmentShader: fragmentShaderMason,
     side: THREE.DoubleSide,
@@ -20,38 +19,37 @@ const createMason = () => {
   
   } );
   
-  const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-  const geometry = new THREE.SphereGeometry( 0.5, 32, 16 );
-
+  const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} )
+  const geometry = new THREE.SphereGeometry( 0.5, 32, 16 )
+  
   const group = new THREE.Group()
-  const groupH = new THREE.Group()
-  const offset = 1.5
-  const scale = 0.6
-  var H = 8
-  var V = 12
-
+  const count = 20
+  const offset = 2.5
+  const offsetX = offset
+  const offsetY = offset
+  const scale = 0.5
+  const objects = []
+  var H = 6
+  var V = 8
+  
   for ( let i = 0, l = H; i < l; i ++ ) {
-   
-    addMesh( geometry, materialS, i, offset )
+    for ( let j = 0, l = V; j < l; j ++ ) {
+      const groupChild = new THREE.Group()
+      groupChild.position.set(offsetX * i, offsetY * j, 1.)
+      group.add(groupChild)
+    }
   }
 
-  for ( let i = 0, l = V-1; i < l; i ++ ) {
-    let groupV = groupH.clone()
-    groupV.position.y = offset * 1
-    groupH.add(groupV)
-  }
+  group.children.forEach(function(item, i, arr){
+    //console.log(item.position)
+    const mesh = new THREE.Mesh(geometry, materialS)
+    let randomIndex = Math.floor(Math.random() * arr.length)
+    //console.log(randomIndex)
+    arr[randomIndex].add(mesh)
+    //
+  })
 
-  function addMesh(geometry, material, index, offset) {
-    const objects = [];
-    const mesh = new THREE.Mesh( geometry, material )
-
-    mesh.scale.set( scale, scale, scale )
-    mesh.position.set(offset * index, 1., 1.)
-    objects.push( mesh )
-    groupH.add( mesh )
-  }
-  group.add(groupH)
-
+  //group.add(groupH)
   function computeGroupCenter(myObject3D) {
     let box = new THREE.Box3().setFromObject(myObject3D)
     let vector = new THREE.Vector3()
@@ -60,7 +58,7 @@ const createMason = () => {
     return vector;
 }
   const middle = computeGroupCenter(group)
-  group.position.set(-middle.x, -middle.y, middle.z)
+  group.position.set(-middle.x, -middle.y, -middle.z)
   scene.add(group)
 
 }
