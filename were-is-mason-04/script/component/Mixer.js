@@ -1,4 +1,8 @@
-class Mixer {
+import {Enemy} from './Enemy.js'
+import {scene, container, renderer, controls, THREE} from './../component/Init.js';
+
+ 
+ export class Mixer {
   constructor() {
   this.group = new THREE.Group();
 
@@ -7,7 +11,7 @@ class Mixer {
   const enemy = new Enemy();
   this.enemy = enemy;
   this.lepestok = this.enemy.lepestok;
-
+  //console.log(this.lepestok)
   }
 }
 

@@ -1,11 +1,44 @@
-let mixer, bg;
-var clock = new THREE.Clock();
+const masonObj = {
+  lepestok: 0,
+  dummy: new THREE.Object3D(),
+  amount: 200,
+  masonArr: [],
+  arr: [],
+  distArrB: [],
+  clock:  new THREE.Clock(),
+  numberOfPoints: 0,
+  millimetr: 600,
+  ratio: 4,
+}
+
+let bg;
 
 const createMason = () => {
-  mixer = new Mixer();
-  mixer.group.scale.set(4, 4, 4);
-  scene.add(mixer.group);
   
+  let mixer = new Mixer();
+  for (let i = 0; i < masonObj.amount; i++) {
+    let obj = {};   
+    obj.px = (Math.random() * masonObj.millimetr) * masonObj.ratio; 					
+    obj.py = (Math.random() * masonObj.millimetr) * masonObj.ratio; 					
+    obj.pz = (Math.random() * masonObj.millimetr) * 0; 
+    masonObj.arr.push( obj)
+
+    masonObj.allowDistance = true;
+    masonObj.arr.forEach((value, j)=>{    
+      const dx = masonObj.arr[i].px - masonObj.arr[j].px;
+      const dy = masonObj.arr[i].py - masonObj.arr[j].py;
+      const dz = masonObj.arr[i].pz - masonObj.arr[j].pz;
+      const dist = Math.hypot(dx, dy, dz);
+      if(dist < 500 && dist > 0.01  ){
+        masonObj.allowDistance = false;
+      }
+    });
+    if (masonObj.allowDistance === true){
+      masonObj.numberOfPoints++;
+      masonObj.distArrB.push(masonObj.arr[i]); 
+     }
+    
+  };
 }
 
 const createBg = () => {
@@ -17,6 +50,22 @@ const createBg = () => {
 }
 
 const loop = () => {
+  masonObj.lepestok = scene.children[5];
+  if (masonObj.lepestok) {
+    const time = Date.now() * 0.001;
+    let i = 0;
+    const offset = (masonObj.millimetr * masonObj.ratio) / 2;
+      for (let i = 0; i < masonObj.distArrB.length; i++) {        
+        masonObj.dummy.position.set(masonObj.distArrB[i].px - offset, masonObj.distArrB[i].py - offset, masonObj.distArrB[i].pz);
+        masonObj.dummy.rotation.x =
+          (Math.sin(1 / 4 + time) +
+           Math.sin(1 / 4 + time) +
+           Math.sin(1 / 4 + time)) *.2 - 0.5;
+           masonObj.dummy.updateMatrix();
+        masonObj.lepestok.setMatrixAt(i, masonObj.dummy.matrix);
+           }
+    masonObj.lepestok.instanceMatrix.needsUpdate = true;
+  }
   
   //mixer.group.rotation.x += 0.03;
   bg.group.children[1].geometry.attributes.position.needsUpdate = true;

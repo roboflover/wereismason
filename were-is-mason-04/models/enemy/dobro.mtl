@@ -1,0 +1,52 @@
+# Blender MTL File: 'allstars.blend'
+# Material Count: 5
+
+newmtl Material
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.003293 0.102468
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Material.002
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.043190 0.000000 0.774272
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl None
+Ns 500
+Ka 0.8 0.8 0.8
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+
+newmtl lips.007
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.897019 1.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump D:\\freeze\\games\\cyber_galaxy\\units\\rabbit\\blender\\txt\\bear_mouth1_lo_lips_Normal.psd
+
+newmtl map_map
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:\\freeze\\games\\cyber_galaxy\\units\\mara\\blender\\map_map.jpg
