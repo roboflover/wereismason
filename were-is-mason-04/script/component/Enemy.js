@@ -1,23 +1,15 @@
-import {scene, container, renderer, controls, THREE} from './../component/Init.js';
-//import * as THREE from './../lib/three.module.js';
+// import {scene, container, renderer, controls, THREE} from './../component/Init.js';
+// //import * as THREE from './../lib/three.module.js';
 
-export class Enemy {
+class Enemy {
   constructor(scene){
     this.scene = scene;
-
     let arr = [];
     this.mesh;
     this.turboMesh;
     this.lepestok;
     let mesh;
     this.count = 35;
-    
-    
-
-
-    
-   
-
    // 'textures/test.jpg'
    // console.log(this.turboMesh)
     

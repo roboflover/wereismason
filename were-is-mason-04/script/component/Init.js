@@ -1,5 +1,5 @@
-import * as THREE from './../lib/three.module.js';
-import {OrbitControls} from './../lib/OrbitControls.js'
+// import * as THREE from './../lib/three.module.js';
+// import {OrbitControls} from './../lib/OrbitControls.js'
 
 let scene, HEIGHT, WIDTH;
 let renderer, container;
@@ -22,8 +22,11 @@ const createScene = () => {
     farPlane
   );
   
+  const axesHelper = new THREE.AxesHelper( 10 )
+  scene.add( axesHelper )  
+
   camera.position.x = 0;
-  camera.position.z = 3500;
+  camera.position.z = 20;
   camera.position.y = 0;
   
   scene.background = null;
@@ -35,9 +38,9 @@ const createScene = () => {
   renderer.shadowMap.enabled = true;
   container = document.getElementById('world');
   container.appendChild(renderer.domElement);
-  controls = new OrbitControls( camera, renderer.domElement );
+  controls = new THREE.OrbitControls( camera, renderer.domElement );
 
   
 }
 createScene()
-export {scene, container, renderer, controls, camera, THREE};
+// export {scene, container, renderer, controls, camera, THREE};
