@@ -1,4 +1,4 @@
-const fragmentShaderPM = ` #define TIMESCALE 0.25 
+const fShaderBgLine = ` #define TIMESCALE 0.25 
   #define TILES 8
   #define COLOR 0.7, 1.6, 2.8
   varying vec3 vPosition; 

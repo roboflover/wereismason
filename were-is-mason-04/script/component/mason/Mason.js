@@ -1,7 +1,7 @@
 let bg;
 
 const createMason = () => {
-  /*
+  
   const materialS = new THREE.ShaderMaterial( {
     uniforms: {
       
@@ -11,12 +11,12 @@ const createMason = () => {
     side: THREE.DoubleSide,
     transparent: true
   })
-  */
+  
   const material = new THREE.MeshBasicMaterial( {color: 0x00ff00, wireframe: true} )
   const geometry = new THREE.SphereGeometry( 0.5, 32, 16 )
   const geoBox = new THREE.BoxGeometry( 1, 1, 1 )
   const meshBoundingBox = new THREE.Mesh(geoBox, material)
- // const mesh = new THREE.Mesh(geometry, materialS)
+  const mesh = new THREE.Mesh(geometry, materialS)
   const groupRight = new THREE.Group()
   const groupCenter = new THREE.Group()
   const offset = 2.5
@@ -109,30 +109,12 @@ const createMason = () => {
 }
 
 const createBg = () => {
-  bg = new Level();
-  const scale = .5
-  scene.add(bg.group);
-  bg.group.scale.set(scale, scale, scale);
-  bg.group.position.z = -6
-  //bg.group.children[1].rotation.z += 0.1
+  bg = new Level()
+  scene.add(bg.group)
+  bg.groupRight.scale.set(200, 200, 100)
+  bg.groupRight.position.z  = -2000
+  bg.groupRight.children[1].rotation.z += 0.1
 }
 
-
-const loop = () => {
-  
-  
-  //mixer.group.rotation.x += 0.03;
-  bg.group.children[1].geometry.attributes.position.needsUpdate = true;
-  bg.group.children[0].rotation.z += 0.001
-  bg.group.children[1].rotation.z = bg.group.children[0].rotation.z
-  bg.shaderMatPoint.uniforms.time.value += 0.01;
-  bg.shaderMatMesh.uniforms.time.value += 0.01;
-  
-  renderer.render(scene, camera);
-  requestAnimationFrame(loop);
-}
-
-createBg()
-createMason()
-loop();
+createMason();
 

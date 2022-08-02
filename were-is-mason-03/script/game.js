@@ -46,26 +46,11 @@ const createBg = () => {
   scene.add(bg.group);
   bg.group.scale.set(200, 200, 100);
   bg.group.position.z  = -2000;
-  bg.group.children[1].rotation.z += 0.1
+  //bg.group.children[1].rotation.z += 0.1
 }
 
 const loop = () => {
-  masonObj.lepestok = scene.children[5];
-  if (masonObj.lepestok) {
-    const time = Date.now() * 0.001;
-    let i = 0;
-    const offset = (masonObj.millimetr * masonObj.ratio) / 2;
-      for (let i = 0; i < masonObj.distArrB.length; i++) {        
-        masonObj.dummy.position.set(masonObj.distArrB[i].px - offset, masonObj.distArrB[i].py - offset, masonObj.distArrB[i].pz);
-        masonObj.dummy.rotation.x =
-          (Math.sin(1 / 4 + time) +
-           Math.sin(1 / 4 + time) +
-           Math.sin(1 / 4 + time)) *.2 - 0.5;
-           masonObj.dummy.updateMatrix();
-        masonObj.lepestok.setMatrixAt(i, masonObj.dummy.matrix);
-           }
-    masonObj.lepestok.instanceMatrix.needsUpdate = true;
-  }
+  
   
   //mixer.group.rotation.x += 0.03;
   bg.group.children[1].geometry.attributes.position.needsUpdate = true;
@@ -73,6 +58,7 @@ const loop = () => {
   bg.group.children[1].rotation.z = bg.group.children[0].rotation.z
   bg.shaderMatPoint.uniforms.time.value += 0.01;
   bg.shaderMatMesh.uniforms.time.value += 0.01;
+  
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
   
