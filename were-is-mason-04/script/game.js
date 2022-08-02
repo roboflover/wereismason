@@ -12,8 +12,10 @@ const createMason = () => {
     transparent: true
   })
   
-  const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} )
+  const material = new THREE.MeshBasicMaterial( {color: 0x00ff00, wireframe: true} )
   const geometry = new THREE.SphereGeometry( 0.5, 32, 16 )
+  const geoBox = new THREE.BoxGeometry( 1, 1, 1 )
+  const meshBoundingBox = new THREE.Mesh(geoBox, material)
   const mesh = new THREE.Mesh(geometry, materialS)
   const groupRight = new THREE.Group()
   const groupCenter = new THREE.Group()
@@ -23,25 +25,101 @@ const createMason = () => {
   const scale = 0.5
   const count = 20
   const objects = []
+  const objectsRight = []
+  const objectsLeft = []
+  const objectsCenter = []
   var H = 2
-  var V = 8
+  var V = 5
   let countVar = 20
   let countSide = count / V
   
-  for ( let i = 0, l = H; i < l; i ++ ) {
-    for ( let j = 0, l = V; j < l; j ++ ) {
+  createRightObjects()
+  createCenterObjects()
+  
+  function createRightObjects(){
+      for (let i = 0, l = H; i < l; i++) {
+        for (let j = 0, l = V; j < l; j++) {
+          const groupChild = new THREE.Group()
+          groupChild.position.set(offsetX * i + offset, offsetY * j, 0.)
+          objectsRight.push(groupChild)
+        }
+      }
+      randomizeObjects(objectsRight)
+  }
+
+  function createCenterObjects(){
+    for (let i = 0, l = V; i < l; i++) {
       const groupChild = new THREE.Group()
-      groupChild.position.set(offsetX * i, offsetY * j, 1.)
-      groupRight.add(groupChild)
+      groupChild.position.set(0, offsetY * i, 0.)
+      objectsCenter.push(groupChild)
     }
+    randomizeObjects(objectsCenter)
   }
   
-  for ( let i = 0, l = V; i < l; i ++ ) {
-    const groupChild = new THREE.Group()
-    groupChild.position.set(0., offsetY * i, 0.)
-    groupCenter.add(groupChild)
+  function randomizeObjects(array){
+    const randLength = array.length
+    const percent = 50
+    const length = Math.ceil(randLength / 100 * percent)
+    let lengthTwo
+    let prev = -1
+    let next
+    let unique = []
+    
+    do{
+      unique.length = 0
+      objects.length = 0
+      for (let i = 0; i < length; i++) {
+      next = Math.ceil(Math.random() * randLength)-1
+      objects.push(array[next])
+      }
+      unique = objects.filter((item, i, ar) => ar.indexOf(item) === i);
+    }while(unique.length<length)
+    //console.log(unique.length)
+    if(unique.length===length){
+    mirrorObjects(unique)
+    } 
+    else {
+      renderObjects(unique)
+    }
+    
   }
   
+  //mirror objects
+  function mirrorObjects(array){
+    for (let i = 0; i < array.length; i++) {
+      let groupRight = array[i].clone()
+      groupRight.position.x = -groupRight.position.x
+      objectsLeft.push(groupRight)
+    }
+    renderObjects(array)
+  }
+  
+ renderObjects(objectsLeft)
+  
+
+  function renderObjects(array){
+    array.forEach(function(item, i, arr) {
+      let meshX = meshBoundingBox.clone()
+      item.add(meshX)
+      scene.add(item)
+    })
+  }
+  
+  
+    /*
+  
+  
+  groupRight.children.forEach(function(item, i, arr){
+    //console.log(item)
+    let meshX = meshBoundingBox.clone()
+    item.add(meshX)
+  })
+  
+  
+  scene.add(groupRight)
+  //scene.add(meshBoundingBox)
+  //console.log(groupRight)
+
   function computeGroupCenter(myObject3D) {
     let box = new THREE.Box3().setFromObject(myObject3D)
     let vector = new THREE.Vector3()
@@ -70,13 +148,14 @@ const createMason = () => {
   
   let renderArr = []
   let renderGroup = new THREE.Group()
-  
+  /*
   while(countVar){
    let rand = Math.floor(Math.random() * objects.length)
     renderArr.push(objects[rand])
     countVar--
   }
-  console.log(renderGroup)
+
+ // console.log(renderGroup)
   scene.add(renderGroup)
   
   renderArr.forEach(function(item, i, arr){
@@ -85,7 +164,7 @@ const createMason = () => {
      item.add(meshX)
      scene.add(item)
   })
-  /*
+
   renderArr.forEach(function(item, i, arr){
     renderGroup.add(item)
     })
