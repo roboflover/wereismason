@@ -33,6 +33,6 @@ const vShaderBgPoint = `
   //  newPos.z = pcr*0.03
    // newPos.z += sin(time + position.x * 0.5);  
     vec4 mvPosition = modelViewMatrix * vec4(newPos, 1.0);
-    gl_PointSize = 10. * (1.5 / - mvPosition.z) + 20.;    
+    gl_PointSize = 1. * (1.5 / - mvPosition.z) + 8.;    
     gl_Position = projectionMatrix * mvPosition;
     }    `;
