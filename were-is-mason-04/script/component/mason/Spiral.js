@@ -1,3 +1,7 @@
+class Spiral {
+  constructor(){
+    this.group = new THREE.Group()
+
 let shroom_height, stipe_vSegments, stipe_rSegments, stipe_points, stipe_indices, stipe_shape, stipe_shape2
 let circleValues
 const mouse = new THREE.Vector2()
@@ -40,7 +44,7 @@ let scaleTube = 0.2
 let degree = 40.91
 let normal = new THREE.Vector3()
 let vertex = new THREE.Vector3()
-let ns;
+//let ns;
 let nScale = 0.25
 let normals = []
 let vertices = []
@@ -51,12 +55,12 @@ var P = new THREE.Vector3()
 mesh.scale.set(scaleTube, scaleTube, scaleTube)
 mesh.position.applyAxisAngle(v, Math.PI / 2)
 
-for ( i = 0; i <= tubularSegments; i ++ ) {
+for (let i = 0; i <= tubularSegments; i ++ ) {
   var pointAt = i / tubularSegments
   P = path.getPointAt(pointAt, P)
   var N = geometry.normals[ i ]
   var B = geometry.binormals[ i ]
-  for ( j = 0; j <= geometry.parameters.radialSegments; j ++ ) {
+  for (let j = 0; j <= geometry.parameters.radialSegments; j ++ ) {
     var v = j / geometry.parameters.radialSegments * Math.PI * 2
     var sin = Math.sin( v )
     var cos = - Math.cos( v )
@@ -66,7 +70,7 @@ for ( i = 0; i <= tubularSegments; i ++ ) {
     normal.normalize();
     var radius = geometry.parameters.radius;
     radius = radius + ((Math.sin(pointAt * 40 - 1.5)*0.9 ) + Math.sin(pointAt * 3 + 2)) // wave along the path
-    ns = Noise.noise(vertex.x * nScale, vertex.y * nScale, j)
+   // ns = Noise.noise(vertex.x * nScale, vertex.y * nScale, j)
     vertex.x = P.x + radius * normal.x
 	  vertex.y = P.y + radius * normal.y
 	  vertex.z = P.z + radius * normal.z
@@ -76,7 +80,7 @@ for ( i = 0; i <= tubularSegments; i ++ ) {
 
 mesh.geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(vertices), 3))
 let lengthX = mesh.geometry.attributes.position.array.length
-
+/*
 for(let i = 0; i < lengthX; i++){
   let t = Math.random()*10
   ns = Noise.noise(
@@ -84,7 +88,7 @@ for(let i = 0; i < lengthX; i++){
     mesh.geometry.attributes.position.array[i + 1] * nScale, 
     t);
 radialSegments  }
-
+*/
 let mandala = new THREE.Group()
 
 function addMandala(count){
@@ -99,4 +103,10 @@ function addMandala(count){
 }
 
 addMandala(5)
-//scene.add(mandala)
+this.group.add(mandala)    
+    
+    
+  }
+}
+
+

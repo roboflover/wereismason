@@ -7,7 +7,12 @@ class Mason {
       const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true })
       const geometry = new THREE.SphereGeometry(0.5, 32, 16)
       const geoBox = new THREE.BoxGeometry(1, 1, 1)
-      const meshBoundingBox = new THREE.Mesh(geoBox, material)
+      //const meshBoundingBox = new THREE.Mesh(geoBox, material)
+      const scaleS = 0.2
+      let spiral = new Spiral()
+      let meshBoundingBox = spiral.group
+      meshBoundingBox.scale.set(scaleS, scaleS, scaleS)
+      // scene.add()
       const mesh = new THREE.Mesh(geometry, material)
       const groupRight = new THREE.Group()
       const groupCenter = new THREE.Group()
@@ -101,6 +106,7 @@ class Mason {
      //console.log('group', group)
    // }
    // createMason()
+   
     this.group = group
   }
 }
