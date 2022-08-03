@@ -7,7 +7,7 @@ const addMasonClass = () => {
  // console.log('groupA', mason.group)
  scene.add(mason.group)
  masonLength = mason.group.children.length
- console.log(mason.group)
+ //console.log(mason.group)
 }
 
 const addBackgroundClass = () => {

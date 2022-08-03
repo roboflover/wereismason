@@ -106,7 +106,19 @@ class Mason {
      //console.log('group', group)
    // }
    // createMason()
-   
+   function computeGroupCenter(count) {
+     var center = new THREE.Vector3();
+     var children = group.children;
+     var count = children.length;
+     for (var i = 0; i < count; i++) {
+       center.add(children[i].position);
+     }
+     center.divideScalar(count);
+     return center;
+   }
+   const centerGroup = computeGroupCenter(group)
+   console.log(centerGroup)
+   group.position.y = -centerGroup.y
     this.group = group
   }
 }
