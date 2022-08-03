@@ -1,4 +1,3 @@
-let camera, scene, renderer, controls, stats
 let shroom_height, stipe_vSegments, stipe_rSegments, stipe_points, stipe_indices, stipe_shape, stipe_shape2
 let circleValues
 const mouse = new THREE.Vector2()
@@ -13,34 +12,6 @@ const uniforms = {
     time: { type: "f", value: 0 },
     resolution: { type: "v4", value: new THREE.Vector4() },
   }
-
-function init() {
-  scene = new THREE.Scene()
-	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 )	
-  camera.position.x = 0
-  camera.position.y = 0
-  camera.position.z = 20
-  renderer = new THREE.WebGLRenderer( { antialias: true } )
-	renderer.setPixelRatio( window.devicePixelRatio )
-	renderer.setSize( window.innerWidth, window.innerHeight )
-	document.body.appendChild( renderer.domElement )
-  controls = new THREE.OrbitControls( camera, renderer.domElement )
-  const axesHelper = new THREE.AxesHelper( 10 )
-  stats = new Stats()
-	document.body.appendChild( stats.dom )
-  document.addEventListener( 'mousemove', onDocumentMouseMove )
-  scene.add( axesHelper )
-}
-
-init()
-
-function onDocumentMouseMove( event ) {
-
-  event.preventDefault()
-  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
-  mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
-
-}
 
 class CustomSinCurve extends THREE.Curve {
 
@@ -57,7 +28,7 @@ class CustomSinCurve extends THREE.Curve {
 }
 
 const zPosScale = 1.5;
-const Noise = new THREE.ImprovedNoise()
+//const Noise = new THREE.ImprovedNoise()
 const radialSegments = 32
 const tubularSegments = 20
 const tubeRadius = 2;
@@ -128,13 +99,4 @@ function addMandala(count){
 }
 
 addMandala(5)
-scene.add(mandala)
-
-
-animate(0)
-function animate(dt) {
-  requestAnimationFrame( animate )
-  dt = dt * 0.001
-  stats.update()
-	renderer.render( scene, camera )
-}
+//scene.add(mandala)

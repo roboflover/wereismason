@@ -62,20 +62,6 @@ class Level {
     this.group.add( bg );
     bg.scale.set(scale, scale, scale,);
     pointCloud.scale.set(scale, scale, scale,);
-    
-    
-    
-    
-    
-    
-    
-  
-    
-    
-  
-     // this.group.add()
     }
-   
-   // 
   }
       

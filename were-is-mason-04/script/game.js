@@ -1,17 +1,9 @@
-let bg;
-
+let bg
+let mason
+/*
 const createMason = () => {
-  /*
-  const materialS = new THREE.ShaderMaterial( {
-    uniforms: {
-      
-    },
-    vertexShader: vertexShaderMason,
-    fragmentShader: fragmentShaderMason,
-    side: THREE.DoubleSide,
-    transparent: true
-  })
-  */
+  
+  
   const material = new THREE.MeshBasicMaterial( {color: 0x00ff00, wireframe: true} )
   const geometry = new THREE.SphereGeometry( 0.5, 32, 16 )
   const geoBox = new THREE.BoxGeometry( 1, 1, 1 )
@@ -104,11 +96,16 @@ const createMason = () => {
       scene.add(item)
     })
   }
+}
+*/
 
-
+const addMasonClass = () => {
+  mason = new Mason()
+ // console.log('groupA', mason.group)
+ scene.add(mason.group)
 }
 
-const createBg = () => {
+const addBackgroundClass = () => {
   bg = new Level();
   const scale = .5
   scene.add(bg.group);
@@ -119,8 +116,6 @@ const createBg = () => {
 
 
 const loop = () => {
-  
-  
   //mixer.group.rotation.x += 0.03;
   bg.group.children[1].geometry.attributes.position.needsUpdate = true;
   bg.group.children[0].rotation.z += 0.001
@@ -132,7 +127,7 @@ const loop = () => {
   requestAnimationFrame(loop);
 }
 
-createBg()
-createMason()
+addBackgroundClass()
+addMasonClass()
 loop();
 
