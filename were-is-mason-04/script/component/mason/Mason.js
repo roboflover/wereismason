@@ -7,11 +7,11 @@ class Mason {
       const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true })
       const geometry = new THREE.SphereGeometry(0.5, 32, 16)
       const geoBox = new THREE.BoxGeometry(1, 1, 1)
-      //const meshBoundingBox = new THREE.Mesh(geoBox, material)
+      const boundingBox = new THREE.Mesh(geoBox, material)
       const scaleS = 0.2
       let spiral = new Spiral()
-      let meshBoundingBox = spiral.group
-      meshBoundingBox.scale.set(scaleS, scaleS, scaleS)
+      let meshSpiral = spiral.group
+      meshSpiral.scale.set(scaleS, scaleS, scaleS)
       // scene.add()
       const mesh = new THREE.Mesh(geometry, material)
       const groupRight = new THREE.Group()
@@ -27,11 +27,13 @@ class Mason {
       const objectsCenter = []
       var H = 2
       var V = 5
+      let newArray = []
       let countVar = 20
       let countSide = count / V
+      let unique = []
     
       createRightObjects()
-      createCenterObjects()
+      //createCenterObjects()
     
       function createRightObjects() {
         for (let i = 0, l = H; i < l; i++) {
@@ -60,7 +62,7 @@ class Mason {
         let lengthTwo
         let prev = -1
         let next
-        let unique = []
+        
     
         do {
           unique.length = 0
@@ -71,15 +73,18 @@ class Mason {
           }
           unique = objects.filter((item, i, ar) => ar.indexOf(item) === i);
         } while (unique.length < length)
-        //console.log(unique.length)
+        //mirrorObjects(unique)
+         /*
         if (unique.length === length) {
           mirrorObjects(unique)
         }
         else {
           renderObjects(unique)
         }
-    
+        */
+        mirrorObjects(unique)
       }
+    
       //mirror objects
       function mirrorObjects(array) {
         for (let i = 0; i < array.length; i++) {
@@ -87,25 +92,36 @@ class Mason {
           groupRight.position.x = -groupRight.position.x
           objectsLeft.push(groupRight)
         }
-        //console.log(array)
-        renderObjects(array)
+        newArray = array.concat(objectsLeft);
+       // renderObjects(newArray)
+       addOneEnemy(newArray)
       }
     
-      renderObjects(objectsLeft)
+     function addOneEnemy(arr){
+       const rand = Math.ceil(Math.random() * newArray.length) -1
+       console.log(rand)
+       
+       for (let i = 0; i < newArray.length; i++) {
+        let meshX = meshSpiral.clone()
+        let bBox = boundingBox.clone()
+        if(i === rand){
+          arr[i].add(bBox)
+          group.add(arr[rand])
+        } else {
+          arr[i].add(meshX)
+          group.add(arr[i]) 
+        }
+       }
+     }
     
       function renderObjects(array) {
         array.forEach(function(item, i, arr) {
-          let meshX = meshBoundingBox.clone()
-        //  console.log(meshX)
+        let meshX = meshSpiral.clone()
         item.add(meshX)
-          group.add(item)
-       // scene.add(item)
-       // this.group.add(item)
+        group.add(item)
         })
       }
-     //console.log('group', group)
-   // }
-   // createMason()
+
    function computeGroupCenter(count) {
      var center = new THREE.Vector3();
      var children = group.children;
@@ -117,7 +133,7 @@ class Mason {
      return center;
    }
    const centerGroup = computeGroupCenter(group)
-   console.log(centerGroup)
+   //console.log(centerGroup)
    group.position.y = -centerGroup.y
     this.group = group
   }
