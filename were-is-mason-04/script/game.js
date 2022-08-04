@@ -12,86 +12,90 @@ const createMason = () => {
     transparent: true
   })
   
-  const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} )
+  const matHelper = new THREE.MeshBasicMaterial( {color: 0x00ff00, wireframe: true} )
   const geometry = new THREE.SphereGeometry( 0.5, 32, 16 )
-  const mesh = new THREE.Mesh(geometry, materialS)
+  const geoHelper = new THREE.BoxGeometry( 1, 1, 1 )
+  const mesh = new THREE.Mesh(geoHelper, matHelper)
   const groupRight = new THREE.Group()
   const groupCenter = new THREE.Group()
+  const groupFinal = new THREE.Group()
   const offset = 2.5
   const offsetX = offset
   const offsetY = offset
   const scale = 0.5
   const count = 20
   const objects = []
-  var H = 2
-  var V = 8
+  var H = 3
+  var V = 7
   let countVar = 20
   let countSide = count / V
   
   for ( let i = 0, l = H; i < l; i ++ ) {
     for ( let j = 0, l = V; j < l; j ++ ) {
       const groupChild = new THREE.Group()
-      groupChild.position.set(offsetX * i, offsetY * j, 1.)
+      groupChild.position.set(offsetX * i, offsetY * j, 0.)
       groupRight.add(groupChild)
     }
   }
   
+  console.log(groupRight)
   for ( let i = 0, l = V; i < l; i ++ ) {
-    const groupChild = new THREE.Group()
-    groupChild.position.set(0., offsetY * i, 0.)
-    groupCenter.add(groupChild)
+
+  }
+
+  pushToObjects(groupRight)
+
+  function pushToObjects(group) {
+    group.children.forEach(function( item ) {
+      objects.push(item)
+    })
+    renderFromArray(objects)
   }
   
+  function renderFromArray(arr) {
+    arr.forEach(function( item ){
+      let meshX = mesh.clone()
+      item.add(meshX)
+      groupFinal.add(item)
+    })
+  }
+
   function computeGroupCenter(myObject3D) {
     let box = new THREE.Box3().setFromObject(myObject3D)
     let vector = new THREE.Vector3()
     box.getCenter(vector)
-    return vector;
+    return vector
   }
 
-  const middleRight = computeGroupCenter(groupRight)
-  const middleCenter = computeGroupCenter(groupCenter)
-  let groupLeft = groupRight.clone()
-  
-  groupLeft.scale.x = -1.0
-  groupLeft.position.set(-offset, -middleRight.y, -middleRight.z)
-  groupRight.position.set(offset, -middleRight.y, -middleRight.z)
-  groupCenter.position.set(0., -middleCenter.y, -0.)
-  
-  pushToObjects(groupLeft)
-  pushToObjects(groupRight)
-  pushToObjects(groupCenter)
-  
-  function pushToObjects(group) {
-    group.children.forEach(function(item, i, arr) {
-      objects.push(item)
-    })
-  }
-  
-  let renderArr = []
-  let renderGroup = new THREE.Group()
-  
-  while(countVar){
-   let rand = Math.floor(Math.random() * objects.length)
-    renderArr.push(objects[rand])
-    countVar--
-  }
-  console.log(renderGroup)
-  scene.add(renderGroup)
-  
-  renderArr.forEach(function(item, i, arr){
-     let meshX = mesh.clone()
-     //objects[rand].add(meshX)
-     item.add(meshX)
-     scene.add(item)
-  })
+  const middleRight = computeGroupCenter(groupFinal)
+  //const middleCenter = computeGroupCenter(groupCenter)
+  //let groupLeft = groupRight.clone()
+  //groupLeft.scale.x = -1.0
+  //groupLeft.position.set(-offset, -middleRight.y, -middleRight.z)
+  groupFinal.position.set(0, -middleRight.y, 0)
+  scene.add(groupFinal)
+  //groupCenter.position.set(0., -middleCenter.y, -0.)
+  // let renderArr = []
+  // let renderGroup = new THREE.Group()
+  // while(countVar){
+  //  let rand = Math.floor(Math.random() * objects.length)
+  //   renderArr.push(objects[rand])
+  //   countVar--
+  // }
+  // console.log(renderGroup)
+  // scene.add(renderGroup)
+  // renderArr.forEach(function(item, i, arr){
+  //    let meshX = mesh.clone()
+  //    //objects[rand].add(meshX)
+  //    item.add(meshX)
+  //    scene.add(item)
+  // })
   /*
   renderArr.forEach(function(item, i, arr){
     renderGroup.add(item)
     })
     //console.log(renderGroup)
   scene.add(renderGroup)
-
   /*
   //console.log(objects.length)
   //objects.push(groupLeft.children[index])
@@ -99,12 +103,10 @@ const createMason = () => {
   scene.add(groupLeft)
   scene.add(groupRight)
   scene.add(groupCenter)
-
   while(countVar){
     let meshCenter = mesh.clone()
     let randomIndex = Math.floor(Math.random() * count)
       groupCenter.children.forEach(function(item, i, arr){
-        
       })
     console.log(randomIndex)
     countVar--
