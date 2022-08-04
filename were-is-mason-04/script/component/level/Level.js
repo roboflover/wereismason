@@ -15,15 +15,15 @@ class Level {
    
     this.shaderMatPoint = new THREE.ShaderMaterial({
       uniforms,
-      vertexShader: vertexShaderP,
-      fragmentShader: fragmentShaderP,
+      vertexShader: vShaderBgPoint,
+      fragmentShader: fShaderBgPoint,
       transparent: true,
       side: THREE.DoubleSide,
     });
     this.shaderMatMesh = new THREE.ShaderMaterial({
       uniforms,
-      vertexShader: vertexShaderPM,
-      fragmentShader: fragmentShaderPM,
+      vertexShader: vShaderBgLine,
+      fragmentShader: fShaderBgLine,
       transparent: true,
       side: THREE.DoubleSide,
       depthWrite: true,
@@ -62,20 +62,6 @@ class Level {
     this.group.add( bg );
     bg.scale.set(scale, scale, scale,);
     pointCloud.scale.set(scale, scale, scale,);
-    
-    
-    
-    
-    
-    
-    
-  
-    
-    
-  
-     // this.group.add()
     }
-   
-   // 
   }
       

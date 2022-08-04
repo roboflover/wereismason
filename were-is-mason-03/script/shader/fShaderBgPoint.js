@@ -1,4 +1,4 @@
-const fragmentShaderP  = `
+const fShaderBgPoint  = `
     varying vec3 vPosition; 
     varying vec2 vUv;
     varying vec4 vColor;  

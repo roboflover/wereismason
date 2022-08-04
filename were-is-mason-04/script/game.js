@@ -1,148 +1,49 @@
-let bg;
+let bg
+let mason, spiral, masonLength
+let masonSpeedR = 0.02
 
-const createMason = () => {
-  
-  const materialS = new THREE.ShaderMaterial( {
-    uniforms: {
-      
-    },
-    vertexShader: vertexShaderMason,
-    fragmentShader: fragmentShaderMason,
-    side: THREE.DoubleSide,
-    transparent: true
-  })
-  
-  const matHelper = new THREE.MeshBasicMaterial( {color: 0x00ff00, wireframe: true} )
-  const geometry = new THREE.SphereGeometry( 0.5, 32, 16 )
-  const geoHelper = new THREE.BoxGeometry( 1, 1, 1 )
-  const mesh = new THREE.Mesh(geoHelper, matHelper)
-  const groupRight = new THREE.Group()
-  const groupCenter = new THREE.Group()
-  const groupFinal = new THREE.Group()
-  const offset = 2.5
-  const offsetX = offset
-  const offsetY = offset
-  const scale = 0.5
-  const count = 20
-  const objects = []
-  var H = 3
-  var V = 7
-  let countVar = 20
-  let countSide = count / V
-  
-  for ( let i = 0, l = H; i < l; i ++ ) {
-    for ( let j = 0, l = V; j < l; j ++ ) {
-      const groupChild = new THREE.Group()
-      groupChild.position.set(offsetX * i, offsetY * j, 0.)
-      groupRight.add(groupChild)
-    }
-  }
-  
-  console.log(groupRight)
-  for ( let i = 0, l = V; i < l; i ++ ) {
-
-  }
-
-  pushToObjects(groupRight)
-
-  function pushToObjects(group) {
-    group.children.forEach(function( item ) {
-      objects.push(item)
-    })
-    renderFromArray(objects)
-  }
-  
-  function renderFromArray(arr) {
-    arr.forEach(function( item ){
-      let meshX = mesh.clone()
-      item.add(meshX)
-      groupFinal.add(item)
-    })
-  }
-
-  function computeGroupCenter(myObject3D) {
-    let box = new THREE.Box3().setFromObject(myObject3D)
-    let vector = new THREE.Vector3()
-    box.getCenter(vector)
-    return vector
-  }
-
-  const middleRight = computeGroupCenter(groupFinal)
-  //const middleCenter = computeGroupCenter(groupCenter)
-  //let groupLeft = groupRight.clone()
-  //groupLeft.scale.x = -1.0
-  //groupLeft.position.set(-offset, -middleRight.y, -middleRight.z)
-  groupFinal.position.set(0, -middleRight.y, 0)
-  scene.add(groupFinal)
-  //groupCenter.position.set(0., -middleCenter.y, -0.)
-  // let renderArr = []
-  // let renderGroup = new THREE.Group()
-  // while(countVar){
-  //  let rand = Math.floor(Math.random() * objects.length)
-  //   renderArr.push(objects[rand])
-  //   countVar--
-  // }
-  // console.log(renderGroup)
-  // scene.add(renderGroup)
-  // renderArr.forEach(function(item, i, arr){
-  //    let meshX = mesh.clone()
-  //    //objects[rand].add(meshX)
-  //    item.add(meshX)
-  //    scene.add(item)
-  // })
-  /*
-  renderArr.forEach(function(item, i, arr){
-    renderGroup.add(item)
-    })
-    //console.log(renderGroup)
-  scene.add(renderGroup)
-  /*
-  //console.log(objects.length)
-  //objects.push(groupLeft.children[index])
-    /*
-  scene.add(groupLeft)
-  scene.add(groupRight)
-  scene.add(groupCenter)
-  while(countVar){
-    let meshCenter = mesh.clone()
-    let randomIndex = Math.floor(Math.random() * count)
-      groupCenter.children.forEach(function(item, i, arr){
-      })
-    console.log(randomIndex)
-    countVar--
-  }
-
-  groupCenter.children.forEach(function(item, i, arr){
-    let meshCenter = mesh.clone()
-    let randomIndex = Math.floor(Math.random() * arr.length)
-    arr[randomIndex].add(meshCenter)
-  })
-  
-  groupRight.children.forEach(function(item, i, arr){
-    let meshRight = mesh.clone()
-    let randomIndex = Math.floor(Math.random() * arr.length)
-    arr[randomIndex].add(meshRight)
-  })
-  */
-
+const addMasonClass = () => {
+  mason = new Mason()
+ // console.log('groupA', mason.group)
+ scene.add(mason.group)
+ masonLength = mason.group.children.length
+ //console.log(mason.group)
 }
 
-const createBg = () => {
-  bg = new Level()
-  scene.add(bg.group)
-  bg.groupRight.scale.set(200, 200, 100)
-  bg.groupRight.position.z  = -2000
-  bg.groupRight.children[1].rotation.z += 0.1
+const addBackgroundClass = () => {
+  bg = new Level();
+  const scale = .5
+  scene.add(bg.group);
+  bg.group.scale.set(scale, scale, scale);
+  bg.group.position.z = -6
+  //bg.group.children[1].rotation.z += 0.1
 }
 
 
 
 const loop = () => {
-  const time = Date.now() * 0.001;
+  
+  for (let i = 0; i < masonLength; i+=2) {
+    mason.group.children[i + 0].rotation.z += masonSpeedR;
+    mason.group.children[i + 1].rotation.z -= masonSpeedR;
+  }
+/*
+mason.group.children.forEach(function(item, index){
+  item.rotation.z += 0.03;
+})
+*/
+  //mason.group.children[1].rotation.z += 0.03;
+  //mixer.group.rotation.x += 0.03;
+  bg.group.children[1].geometry.attributes.position.needsUpdate = true;
+  bg.group.children[0].rotation.z += 0.001
+  bg.group.children[1].rotation.z = bg.group.children[0].rotation.z
+  bg.shaderMatPoint.uniforms.time.value += 0.01;
+  bg.shaderMatMesh.uniforms.time.value += 0.01;
+  
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
 }
 
-createMason();
+addBackgroundClass()
+addMasonClass()
 loop();
-
