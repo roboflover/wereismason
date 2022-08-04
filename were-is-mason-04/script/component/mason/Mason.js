@@ -25,16 +25,37 @@ class Mason {
       const objectsRight = []
       const objectsLeft = []
       const objectsCenter = []
+      const arrayMerge = []
       var H = 2
       var V = 5
       let newArray = []
       let countVar = 20
       let countSide = count / V
       let unique = []
+      let arrCount = 0
     
       createRightObjects()
-      //createCenterObjects()
-    
+      createCenterObjects()
+      //createObjects()
+      /*
+    function createObjects(){
+      const arrayAll = []
+      for (let i = 0, l = H; i < l; i++) {
+        for (let j = 0, l = V; j < l; j++) {
+          const groupChild = new THREE.Group()
+          groupChild.position.set(offsetX * i + offset, offsetY * j, 0.)
+          arrayAll.push(groupChild)
+        }
+      }
+      randomizeObjects(arrayAll)
+      for (let i = 0, l = V; i < l; i++) {
+        const groupChild = new THREE.Group()
+        groupChild.position.set(0, offsetY * i, 0.)
+        objectsCenter.push(groupChild)
+      }
+      
+    }
+    */
       function createRightObjects() {
         for (let i = 0, l = H; i < l; i++) {
           for (let j = 0, l = V; j < l; j++) {
@@ -57,13 +78,12 @@ class Mason {
     
       function randomizeObjects(array) {
         const randLength = array.length
-        const percent = 50
+        const percent = 40
         const length = Math.ceil(randLength / 100 * percent)
         let lengthTwo
         let prev = -1
         let next
         
-    
         do {
           unique.length = 0
           objects.length = 0
@@ -72,19 +92,33 @@ class Mason {
             objects.push(array[next])
           }
           unique = objects.filter((item, i, ar) => ar.indexOf(item) === i);
-        } while (unique.length < length)
-        //mirrorObjects(unique)
-         /*
-        if (unique.length === length) {
-          mirrorObjects(unique)
-        }
-        else {
-          renderObjects(unique)
-        }
-        */
-        mirrorObjects(unique)
+         } while (unique.length < length)
+         console.log(unique)
+         findDemonAndRenderAll(unique)
+        // console.log(array.length)
+        /*
+         if(array.length > V){
+         mirrorObjects(unique)
+         console.log('x',unique)
+         } else {
+         //mergeArrays(unique)
+         //console.log(unique)
+         }
+         */
       }
-    
+      
+      function mergeArrays(arr){
+        arr.forEach(function(val, index){
+          arrayMerge.push(val)
+        })
+        arrCount++
+       // console.log(arrCount)
+       // if(arrCount>=0 ){
+         // console.log(arrayMerge)
+        findDemonAndRenderAll(arr)
+        
+        //}
+      }
       //mirror objects
       function mirrorObjects(array) {
         for (let i = 0; i < array.length; i++) {
@@ -93,15 +127,18 @@ class Mason {
           objectsLeft.push(groupRight)
         }
         newArray = array.concat(objectsLeft);
-       // renderObjects(newArray)
-       addOneEnemy(newArray)
+       //renderObjects(newArray)
+       //arrayMerge.push()
+       //findDemonAndRenderAll(newArray)
+       //console.log(newArray)
+      // mergeArrays(newArray)
+       findDemonAndRenderAll(array)
       }
     
-     function addOneEnemy(arr){
-       const rand = Math.ceil(Math.random() * newArray.length) -1
-       console.log(rand)
-       
-       for (let i = 0; i < newArray.length; i++) {
+     function findDemonAndRenderAll(arr){
+       const rand = Math.ceil(Math.random() * arr.length) -1
+       //console.log(rand)
+       for (let i = 0; i < arr.length-1; i++) {
         let meshX = meshSpiral.clone()
         let bBox = boundingBox.clone()
         if(i === rand){
@@ -111,8 +148,9 @@ class Mason {
           arr[i].add(meshX)
           group.add(arr[i]) 
         }
-       }
-     }
+      }
+     // console.log(group)
+    }
     
       function renderObjects(array) {
         array.forEach(function(item, i, arr) {
@@ -121,7 +159,7 @@ class Mason {
         group.add(item)
         })
       }
-
+    
    function computeGroupCenter(count) {
      var center = new THREE.Vector3();
      var children = group.children;
