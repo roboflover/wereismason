@@ -3,7 +3,7 @@ let mason, spiral, masonLength
 let masonSpeedR = 0.02
 
 const addMasonClass = () => {
-  mason = new Mason()
+  mason = new MasonInstancing()
  // console.log('groupA', mason.group)
  scene.add(mason.group)
  masonLength = mason.group.children.length
