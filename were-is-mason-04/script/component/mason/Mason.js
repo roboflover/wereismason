@@ -26,8 +26,8 @@ class Mason {
       const objectsLeft = []
       const objectsCenter = []
       const arrayMerge = []
-      var H = 2
-      var V = 5
+      var H = 3
+      var V = 11
       let newArray = []
       let countVar = 20
       let countSide = count / V
@@ -78,12 +78,12 @@ class Mason {
     
       function randomizeObjects(array) {
         const randLength = array.length
-        const percent = 40
+        const percent = 30
         const length = Math.ceil(randLength / 100 * percent)
         let lengthTwo
         let prev = -1
         let next
-        
+        console.log(length)
         do {
           unique.length = 0
           objects.length = 0
@@ -93,13 +93,13 @@ class Mason {
           }
           unique = objects.filter((item, i, ar) => ar.indexOf(item) === i);
          } while (unique.length < length)
-         console.log(unique)
+         //console.log(unique)
          //findDemonAndRenderAll(unique)
         // console.log(array.length)
         
          if(array.length > V){
          mirrorObjects(unique)
-         console.log('x',unique)
+         //console.log('x',unique)
          } else {
          mergeArrays(unique)
          //console.log(unique)

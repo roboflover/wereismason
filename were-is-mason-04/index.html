@@ -1,8 +1,65 @@
 <link rel="stylesheet" href="./style/style.css" />
 <body bgcolor="#000000">
   <div id="world"></div>
+  <script id="vshader" type="x-shader/x-vertex">
+      precision highp float;
+    		uniform mat4 modelViewMatrix;
+    		uniform mat4 projectionMatrix;
+    		uniform float time;
+
+    		attribute vec3 position;
+    		attribute vec2 uv;
+    		attribute vec3 translate;
+        attribute vec3 rotation;
+    		varying vec2 vUv;
+    		varying float vScale;
+
+        mat4 rotationMatrix(vec3 axis, float angle)
+    {
+      axis = normalize(axis);
+      float s = sin(angle);
+      float c = cos(angle);
+      float oc = 1.0 - c;
+
+      return mat4(oc * axis.x * axis.x + c, oc * axis.x * axis.y - axis.z * s, oc * axis.z * axis.x + axis.y * s, 0.0,
+        oc * axis.x * axis.y + axis.z * s, oc * axis.y * axis.y + c, oc * axis.y * axis.z - axis.x * s, 0.0,
+        oc * axis.z * axis.x - axis.y * s, oc * axis.y * axis.z + axis.x * s, oc * axis.z * axis.z + c, 0.0,
+        0.0, 0.0, 0.0, 1.0);
+    }
+
+    mat4 rotateXYZ() {
+      return rotationMatrix(vec3(1, 0, 0), rotation.x * time) * rotationMatrix(vec3(0, 1, 0), rotation.y * time) * rotationMatrix(vec3(0, 0, 1), rotation.z * time);
+    }
+
+    		void main() {
+
+    			vec4 mvPosition = modelViewMatrix * vec4( translate, 1.0 );
+    		  vec3 trTime = vec3(translate.x + time,translate.y + time,translate.z + time);
+    			float scale =  sin(time*2.2);
+    		//	float rotX = rotate.z * time * 10.;
+    			vScale = scale;
+    			scale = scale * 10.0 + 10.0;
+    			mvPosition.xyz += position * scale;
+          mvPosition.xyz += position * 5.0;
+    			vUv = uv;
+    			gl_Position = projectionMatrix * mvPosition;
+
+    		}
+  </script>
+  <script id="fshader" type="x-shader/x-fragment">
+      precision highp float;
+    uniform sampler2D map;
+
+    varying vec2 vUv;
+    varying float vScale;
+    void main() {
+
+        gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+    }
+  </script>
   <!-- LYBARY -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r123/three.min.js"></script>
+  <script src="./script/lib/BufferGeometryUtils.js"></script>
   <script src="./script/lib/OrbitControls.js"></script>
   <!-- SHADER -->
   <script src="./script/shader/vShaderBgLine.js"></script>

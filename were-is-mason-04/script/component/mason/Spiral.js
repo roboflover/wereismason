@@ -89,24 +89,35 @@ for(let i = 0; i < lengthX; i++){
     t);
 radialSegments  }
 */
-let mandala = new THREE.Group()
-
-function addMandala(count){
-  mesh.position.x = -1
+//mergeTest(3, geometry)
+function mergeTest(count, geo){
+  let geoArr = []
+  geo.translate(-5.,0.,0.)
+  
+ // var geometry1 = geo.clone()
+  
   for(let i = 0; i < count; i++){
-    let meshB = mesh.clone()
-    let groupCenter = new THREE.Group()
-    groupCenter.add( meshB )
-    groupCenter.rotation.z = ((Math.PI/count)*2) * i
-    mandala.add( groupCenter )
+    let geoB = geo.clone()
+    geoB.rotateZ(((Math.PI/count)*2) * i)
+    geoArr.push(geoB)
   }
+ // geometry2.translate(1,2,3)
+  //console.log(geometry2)
+  //geometry2.rotateZ(((Math.PI/5) * 2)*4)
+  var merged = THREE.BufferGeometryUtils.mergeBufferGeometries(geoArr);
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  const cluster = new THREE.Mesh(merged, material)
+  
+  return cluster
 }
 
-addMandala(5)
+
+let mandala = mergeTest(3, geometry)
+
+
 this.group.add(mandala)    
     
     
   }
 }
-
 

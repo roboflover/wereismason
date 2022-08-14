@@ -5,8 +5,10 @@ let masonSpeedR = 0.02
 const addMasonClass = () => {
   mason = new MasonInstancing()
  // console.log('groupA', mason.group)
+ const scale = 1.5
+ mason.group.scale.set(scale,scale,scale)
  scene.add(mason.group)
- masonLength = mason.group.children.length
+// masonLength = mason.group.children.length
  //console.log(mason.group)
 }
 
@@ -19,21 +21,13 @@ const addBackgroundClass = () => {
   //bg.group.children[1].rotation.z += 0.1
 }
 
-
-
 const loop = () => {
   
-  for (let i = 0; i < masonLength; i+=2) {
-    mason.group.children[i + 0].rotation.z += masonSpeedR;
-    mason.group.children[i + 1].rotation.z -= masonSpeedR;
-  }
-/*
-mason.group.children.forEach(function(item, index){
-  item.rotation.z += 0.03;
-})
-*/
-  //mason.group.children[1].rotation.z += 0.03;
-  //mixer.group.rotation.x += 0.03;
+
+  const time = performance.now() * 0.005
+  //material.uniforms[ "time" ].value = time
+  mason.shaderUniforms.time.value = time;
+
   bg.group.children[1].geometry.attributes.position.needsUpdate = true;
   bg.group.children[0].rotation.z += 0.001
   bg.group.children[1].rotation.z = bg.group.children[0].rotation.z

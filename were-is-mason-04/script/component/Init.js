@@ -40,7 +40,11 @@ const createScene = () => {
   container.appendChild(renderer.domElement);
   controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-  
+  let light = new THREE.DirectionalLight(0xffffff, 1.5);
+light.position.setScalar(10);
+scene.add(light);
+scene.add(new THREE.AmbientLight(0xffffff, 1));
+
 }
 createScene()
 // export {scene, container, renderer, controls, camera, THREE};
